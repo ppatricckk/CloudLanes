@@ -1,0 +1,162 @@
+<ol class="breadcrumb">
+    <li><a href="#">Tape Administration</a></li>
+    <li class="active><a href="#">Create VTL</a></li>
+</ol>
+<div class="container-fluid"  style="max-height:90% ;overflow-y: auto">
+<div class="col-md-2"></div>
+<div class="col-md-8">
+     <form class="form-horizontal" name="createVTLForm" ng-submit="createVTL(createVTLForm.$valid)" novalidate >
+        <fieldset>
+
+   <!--         &lt;!&ndash; Form Name &ndash;&gt;
+            <legend>Create Virtual Tape Library</legend>-->
+
+            <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="vtl_name">Name</label>
+                <div class="col-md-4">
+                    <input id="vtl_name" name="vtl_name" type="text" placeholder="" class="form-control input-md" ng-model="vtl.libraryName" required>
+
+                </div>
+            </div>
+
+            <!-- Select Basic -->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="vtl_brand">Brand</label>
+                <div class="col-md-4">
+                    <select id="vtl_brand" name="vtl_brand" class="form-control"
+                            ng-options="brand.brandId as brand.brandName for brand in brands" ng-model="vtl.brandId"  ng-change="brandSelected()" required>
+                       <!-- <option ng-repeat="brand in brands" ng-value ={{brand.brandId}}>{{brand.brandName}}  </option>-->
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="vtl_model">Model</label>
+                <div class="col-md-4">
+                    <select id="vtl_model" name="vtl_model" class="form-control"  ng-options="model.modelId as model.modelName for model in models" ng-model="vtl.libraryModelId" required>
+                      <!--  <option ng-repeat="model in models"  ng-value={{model.modelId}}>{{model.modelName}}</option>-->
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="vtl_slots">No. of Slots</label>
+                <div class="col-md-4">
+                    <input id="vtl_slots" name="vtl_slots" type="text" placeholder="" class="form-control input-md" ng-model="vtl.noOfSlots" required>
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="vtl_pickers">No. of Pickers</label>
+                <div class="col-md-4">
+                    <input id="vtl_pickers" name="vtl_pickers" type="text" placeholder="" class="form-control input-md" ng-model="vtl.noOfPickers" required>
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="vtl_empty_slots">No. of Empty Slots</label>
+                <div class="col-md-4">
+                    <input id="vtl_empty_slots" name="vtl_empty_slots" type="text" placeholder="" class="form-control input-md" ng-model="vtl.noOfEmptySlots" required>
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="vtl_drives_count">No. of Drives</label>
+                <div class="col-md-4">
+                    <input id="vtl_drives_count" name="vtl_drives_count" type="text" placeholder="" class="form-control input-md" ng-model="vtl.noOfDrives" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="vtl_maps_count">No. of Maps</label>
+                <div class="col-md-4">
+                    <input id="vtl_maps_count" name="vtl_maps_count" type="text" placeholder="" class="form-control input-md" ng-model="vtl.noOfMaps" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="drive_vendor">Drive Vendor</label>
+                <div class="col-md-4">
+                    <select id="drive_vendor" name="drive_vendor" class="form-control" ng-options="driveVendor.vendorId as driveVendor.vendorName for driveVendor in driveVendors"
+                            ng-model="vtl.driveVendorId" required>
+                      <!--  <option ng-repeat="driveVendor in driveVendors"  ng-value={{driveVendor.vendorId}}>{{driveVendor.vendorName}}</option>-->
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="drive_model">Drive Model</label>
+                <div class="col-md-4">
+                    <select id="drive_model" name="drive_model" class="form-control" ng-options="driveModel.modelId as driveModel.modelName for driveModel in driveModels"
+                            ng-model="vtl.driveModelId" required>
+                      <!--  <option ng-repeat="driveModel in driveModels"  ng-value={{driveModel.modelId}}>{{driveModel.modelName}}</option>-->
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="vtl_media_type">Media Type</label>
+                <div class="col-md-4">
+                    <select id="vtl_media_type" name="vtl_media_type" class="form-control" ng-options="mediaType.typeId as mediaType.typeName for mediaType in mediaTypes"
+                            ng-model="vtl.mediaTypeId" required>
+                   <!--     <option ng-repeat="mediaType in mediaTypes"  ng-value={{mediaType.typeId}}>{{mediaType.typeName}}</option>-->
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="vtl_media_capacity">Media Capacity(MB)</label>
+                <div class="col-md-4">
+                    <input id="vtl_media_capacity" name="vtl_media_capacity" type="text" placeholder="" class="form-control input-md" ng-model="vtl.mediaCapacityMB" required>
+                </div>
+            </div>
+
+            <!-- Select Basic -->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="vault">Vault Name</label>
+                <div class="col-md-4">
+                    <select id="vault" name="vault" class="form-control" ng-model= "vtl.vaultId" required>
+                        <option ng-repeat="vault in vaultsList"  ng-value={{vault.vaultId}}>{{vault.accountName}}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="vtl_compression_factor">Compression Factor(0-9)</label>
+                <div class="col-md-4">
+                    <input id="vtl_compression_factor" name="vtl_compression_factor" ng-value="1" type="text" placeholder="1" class="form-control input-md" readonly ng-model="vtl.compressionFactor">
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="vtl_compression_enabled">Compression</label>
+                <div class="col-md-1">
+                    <div class="input-group">
+                 <span class="input-group-addon">
+                      <input type="checkbox" id="vtl_compression_enabled" ng-model="vtl.compressionEnabled" required>
+                </span>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Button -->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="vtl_submit"></label>
+                <div class="col-md-2">
+                    <button id="vtl_submit" name="vtl_submit" class="btn btn-primary" ng-disabled="createVTLForm.$invalid" >Submit</button>
+                </div>
+                <div class="col-md-2">
+                    <button id="vtl_cancel" name="vtl_submit" class="btn btn-primary">Cancel</button>
+                </div>
+            </div>
+
+        </fieldset>
+    </form>
+    </div>
+</div>

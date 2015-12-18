@@ -1,0 +1,65 @@
+<ol class="breadcrumb">
+    <li><a href="#">Tape Administration</a></li>
+    <li class="active><a href="#">Create Tape</a></li>
+</ol>
+<div class="col-md-2"></div>
+<div class="col-md-8">
+    <form class="form-horizontal" name="createTapeForm" id="createTapeForm" ng-submit="createTape(createTapeForm.$valid)" novalidate>
+        <fieldset style="margin-top: 10% ">
+
+            <!--         &lt;!&ndash; Form Name &ndash;&gt;
+                     <legend>Create Virtual Tape Library</legend>-->
+
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="tape_vtl_brand">VTL Name</label>
+                <div class="col-md-4">
+                    <select id="tape_vtl_brand" name="tape_vtl_brand" class="form-control"
+                            ng-options="brand.libraryName as brand.libraryName for brand in brands" ng-model="tape.libraryName" ng-change="brandSelected()" required>
+                       <!-- <option ng-repeat="brand in brands" ng-value ={{brand.libraryName}}>{{brand.libraryName}}  </option>//change libraryName to brandName-->
+                    </select>
+                </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="vtl_media_type">Media Type</label>
+                <div class="col-md-4">
+                    <select id="vtl_media_type" name="vtl_media_type" class="form-control" ng-model="tape.mediaTypeId"
+                            ng-options="mediaType.typeId as mediaType.typeName for mediaType in mediaTypes" required >
+                       <!-- <option ng-repeat="mediaType in mediaTypes"  ng-value={{mediaType.typeId}}>{{mediaType.typeName}}</option>-->
+                    </select>
+                </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="tape_media_capacity">Media Capacity(MB)</label>
+                <div class="col-md-4">
+                    <input id="tape_media_capacity"  ng-value="500"  type="text" placeholder="500" class="form-control input-md" ng-model="tape.mediaCapacityMB" readonly >
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="tape_no_of_tapes">No. Of Tapes</label>
+                <div class="col-md-4">
+                    <input id="tape_no_of_tapes"   type="text" placeholder="" class="form-control input-md" ng-model="tape.noOfTapes" required>
+
+                </div>
+            </div>
+
+            <!-- Button -->
+            <div class="form-group">
+                <label class="col-md-4 col-lg-4 control-label" for="tape_submit"></label>
+                <div class="col-md-2 col-lg-2 ">
+                    <button id="tape_submit" name="vtl_submit" class="btn btn-primary"  ng-disabled="createTapeForm.$invalid">Submit</button>
+                </div>
+                <div class="col-md-2 col-lg-2 ">
+                    <button id="tape_cancel" name="vtl_submit" class="btn btn-primary">Cancel</button>
+                </div>
+            </div>
+
+        </fieldset>
+    </form>
+
+</div>

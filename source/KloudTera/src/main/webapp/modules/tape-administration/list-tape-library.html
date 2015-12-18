@@ -1,0 +1,95 @@
+<ol class="breadcrumb">
+    <li><a href="#">Tape Administration</a></li>
+    <li class="active><a href="#">List Tape Libraries</a></li>
+</ol>
+<div class="row">
+<div class="col-sm-12">
+    <table st-table="displayedCollection" st-safe-src="rowCollection" class="table table-striped">
+        <thead>
+        <tr>
+            <th st-sort="">VTL Name</th>
+          <!--  <th st-sort="">VTL Brand</th>
+            <th st-sort="">VTL Model</th>-->
+            <th st-sort="">No. Of Drives</th>
+            <th st-sort="">No. Of Slots</th>
+            <th st-sort="">No. Of Empty Slots</th>
+            <th st-sort="">Media Capacity(MB)</th>
+
+           <th>Publish</th>
+            <!--  <th>Unload</th>
+             <th>Delete</th>-->
+        </tr>
+
+        </thead>
+        <tbody>
+        <tr ng-repeat="row in displayedCollection">
+            <td>{{row.libraryName}}</td>
+        <!--    <td>{{row.libraryBrand}}</td>
+            <td>{{row.libraryModel}}</td>-->
+            <td>{{row.noOfDrives}}</td>
+            <td>{{row.noOfSlots}}</td>
+            <td>{{row.noOfEmptySlots}}</td>
+            <td>{{row.mediaCapacityMB}}</td>
+
+            <td>
+                <span  id="successIcon" ng-click="export(row)">
+                    <i class="glyphicon glyphicon-download"></i>
+                </span>
+            </td>
+
+            <!--         <td>
+                         <button type="button" ng-click="unload(row)" class="btn btn-sm btn-warning">
+                             <i class="glyphicon glyphicon-upload">
+                             </i>
+                         </button>
+                     </td>
+
+                     <td>
+                         <button type="button" ng-click="delete(row)" class="btn btn-sm btn-danger">
+                             <i class="glyphicon glyphicon-trash">
+                             </i>
+                         </button>
+                     </td>-->
+
+        </tr>
+        </tbody>
+    </table>
+</div>
+</div>
+
+<div class="modal fade" id="publishModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog custom-class">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Publish VTL</h4>
+
+            </div>
+            <div class="modal-body col-sm-12">
+
+                <form class="form-horizontal col-sm-12" name="publishForm"
+                      ng-submit="publish(publishForm.$valid)" novalidate>
+                        <fieldset  data-ng-repeat="VTLConfig in VTLConfigs">
+                            <div class="form-group">
+                                <input type="text" ng-model="VTLConfig.ip" name="" placeholder="Enter IP Address" style="padding: 5px;margin-left: 25%">
+                                <button class="add" ng-show="$last" ng-click="addConfig()">+</button>
+                                <button class="remove" ng-show="$last" ng-click="removeConfig()">-</button>
+                            </div>
+                        </fieldset>
+                </form>
+
+            </div>
+
+            <div class="modal-footer">
+                <button id="publish_submit" name="publish_submit" class="btn btn-primary"
+                        ng-disabled="publishForm.$invalid" ng-click="publish(true)">Submit</button>
+                <button id="publish_cancel" name="publish_cancel"
+                        class="btn btn-primary" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

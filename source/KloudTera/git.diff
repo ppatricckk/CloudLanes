@@ -1,0 +1,953 @@
+diff --git a/source/KloudTera/src/main/java/com/cloudlanes/db/alertdao/AlertDao.java b/source/KloudTera/src/main/java/com/cloudlanes/db/alertdao/AlertDao.java
+index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..955ec45008c3023c4b3a85016db9447ca1ad54a3 100644
+--- a/source/KloudTera/src/main/java/com/cloudlanes/db/alertdao/AlertDao.java
++++ b/source/KloudTera/src/main/java/com/cloudlanes/db/alertdao/AlertDao.java
+@@ -0,0 +1,42 @@
++package com.cloudlanes.db.alertdao;
++
++import java.util.List;
++
++import com.cloudlanes.db.dao.GenericDao;
++import com.cloudlanes.db.entities.Alert;
++
++
++public interface AlertDao extends GenericDao<Alert, Integer>{
++
++	/**
++	 * method add Alert
++	 *
++	 * @param alert
++	 * @return boolean
++	 */
++	public boolean addAlert(Alert a);
++
++	/**
++	 * method for remove alert
++	 *
++	 * @param alert
++	 * @return boolean
++	 */
++	public boolean removeAlert(Alert a);
++
++	/**
++	 * method for update alert
++	 *
++	 * @param alert
++	 * @return boolean
++	 */
++	public boolean updateAlert(Alert a);
++
++	/**
++	 * List alerts
++	 *
++	 * @param key
++	 * @return list
++	 */
++	public List<Alert> listAlert();
++}
+diff --git a/source/KloudTera/src/main/java/com/cloudlanes/db/alertdao/AlertDaoImpl.java b/source/KloudTera/src/main/java/com/cloudlanes/db/alertdao/AlertDaoImpl.java
+index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..6a17e736b5afe6bfa734e290a14494d67e694b7b 100644
+--- a/source/KloudTera/src/main/java/com/cloudlanes/db/alertdao/AlertDaoImpl.java
++++ b/source/KloudTera/src/main/java/com/cloudlanes/db/alertdao/AlertDaoImpl.java
+@@ -0,0 +1,66 @@
++package com.cloudlanes.db.alertdao;
++
++import java.util.List;
++
++import org.apache.log4j.Logger;
++import org.hibernate.Query;
++import org.springframework.stereotype.Repository;
++
++import com.cloudlanes.db.dao.GenericDaoImpl;
++import com.cloudlanes.db.entities.Alert;
++
++@Repository
++public class AlertDaoImpl extends GenericDaoImpl<Alert, Integer> implements
++		AlertDao {
++
++	final static Logger logger = Logger.getLogger(AlertDaoImpl.class);
++	private static final String CLASS_NAME = AlertDaoImpl.class.getSimpleName();
++
++	@Override
++	public boolean addAlert(Alert alert) {
++		try {
++			currentSession().saveOrUpdate(alert);
++			logger.info("Row inserted in alert table");
++			return true;
++		} catch (Exception e) {
++			logger.error("corresponding object not inserted in database");
++			return false;
++		}
++	}
++
++	@Override
++	public boolean removeAlert(Alert alert) {
++		try {
++			currentSession().delete(alert);
++
++			logger.info("Row deleted from alert table");
++			return true;
++		} catch (Exception e) {
++			logger.error("corresponding alert object not deleted from database");
++			return false;
++		}
++	}
++
++	@Override
++	public boolean updateAlert(Alert alert) {
++		try {
++			currentSession().saveOrUpdate(alert);
++			logger.info("Row updated in alert table");
++			return true;
++		} catch (Exception e) {
++			logger.error("corresponding alert object is updated in database");
++			return false;
++		}
++	}
++
++	@Override
++	public List<Alert> listAlert() {
++		String hql = "from Alert a ";
++		Query query = currentSession().createQuery(hql);
++
++		List<Alert> alertLst = (List<Alert>) query.list();
++
++		return alertLst;
++	}
++
++}
+diff --git a/source/KloudTera/src/main/java/com/cloudlanes/db/alertdao/AlertRecommendationDAO.java b/source/KloudTera/src/main/java/com/cloudlanes/db/alertdao/AlertRecommendationDAO.java
+index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..182bff3871fdc56b53fd1abebb6a4295b2fffab6 100644
+--- a/source/KloudTera/src/main/java/com/cloudlanes/db/alertdao/AlertRecommendationDAO.java
++++ b/source/KloudTera/src/main/java/com/cloudlanes/db/alertdao/AlertRecommendationDAO.java
+@@ -0,0 +1,38 @@
++package com.cloudlanes.db.alertdao;
++
++import com.cloudlanes.db.dao.GenericDao;
++import com.cloudlanes.db.entities.AlertRecommendation;
++
++public interface AlertRecommendationDAO extends GenericDao<AlertRecommendation, Integer>{
++	/**
++	 * method add Recommendation
++	 *
++	 * @param alert
++	 * @return boolean
++	 */
++	public boolean addRecommendation(AlertRecommendation recommendation);
++
++	/**
++	 * method for remove Recommendation
++	 *
++	 * @param alert
++	 * @return boolean
++	 */
++	public boolean removeRecommendation(AlertRecommendation recommendation);
++
++	/**
++	 * method for update Recommendation
++	 *
++	 * @param alert
++	 * @return boolean
++	 */
++	public boolean updateRecommendation(AlertRecommendation recommendation);
++	
++	/**
++	 * Get Recommendation
++	 * identified by the code
++	 * @param key
++	 * @return list
++	 */
++	public AlertRecommendation getRecommendation(Double code);
++}
+diff --git a/source/KloudTera/src/main/java/com/cloudlanes/db/alertdao/AlertRecommendationDAOImpl.java b/source/KloudTera/src/main/java/com/cloudlanes/db/alertdao/AlertRecommendationDAOImpl.java
+index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..06533fc079fd14001f997277bab9230d50acb562 100644
+--- a/source/KloudTera/src/main/java/com/cloudlanes/db/alertdao/AlertRecommendationDAOImpl.java
++++ b/source/KloudTera/src/main/java/com/cloudlanes/db/alertdao/AlertRecommendationDAOImpl.java
+@@ -0,0 +1,77 @@
++package com.cloudlanes.db.alertdao;
++
++import org.apache.log4j.Logger;
++import org.hibernate.Query;
++import org.springframework.stereotype.Repository;
++
++import com.cloudlanes.db.dao.GenericDaoImpl;
++import com.cloudlanes.db.entities.AlertRecommendation;
++
++@Repository
++public class AlertRecommendationDAOImpl extends
++		GenericDaoImpl<AlertRecommendation, Integer> implements
++		AlertRecommendationDAO {
++
++	final static Logger logger = Logger
++			.getLogger(AlertRecommendationDAOImpl.class);
++	private static final String CLASS_NAME = AlertRecommendationDAOImpl.class
++			.getSimpleName();
++
++	@Override
++	public boolean addRecommendation(AlertRecommendation recommendation) {
++		try {
++			currentSession().saveOrUpdate(recommendation);
++			logger.debug("Row inserted in AlertRecommendation table ID : "
++					+ recommendation.getId());
++			return true;
++		} catch (Exception e) {
++			logger.error("corresponding object not inserted in database");
++			return false;
++		}
++	}
++
++	@Override
++	public boolean removeRecommendation(AlertRecommendation recommendation) {
++		try {
++			currentSession().delete(recommendation);
++			logger.debug("Row deleted from AlertRecommendation table ID :"
++					+ recommendation.getId());
++			return true;
++		} catch (Exception e) {
++			logger.error("corresponding AlertRecommendation object not deleted from database ID : "
++					+ recommendation.getId());
++			return false;
++		}
++	}
++
++	@Override
++	public boolean updateRecommendation(AlertRecommendation recommendation) {
++		try {
++			currentSession().saveOrUpdate(recommendation);
++			logger.debug("Row updated in AlertRecommendation table ID : "
++					+ recommendation.getId());
++			return true;
++		} catch (Exception e) {
++			logger.error("corresponding AlertRecommendation object is updated in database");
++			return false;
++		}
++	}
++
++	@Override
++	public AlertRecommendation getRecommendation(Double code) {
++		String qry = "from AlertRecommendation a where a.code = ?";
++		Query recommendationQuery = currentSession().createQuery(qry);
++		recommendationQuery.setParameter(0, code);
++		if (recommendationQuery.list().size() > 0) {
++			return (AlertRecommendation) recommendationQuery.list().get(0);
++		} else {
++			AlertRecommendation recomm = new AlertRecommendation();
++			recomm.setId(0);
++			recomm.setCode(code);
++			recomm.setRecommendation("No recommendation data available for the alert.");
++			return recomm;
++		}
++
++	}
++
++}
+diff --git a/source/KloudTera/src/main/java/com/cloudlanes/db/entities/Alert.java b/source/KloudTera/src/main/java/com/cloudlanes/db/entities/Alert.java
+index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..1af44ae7eee432dc6e90a546036c5e027567354c 100644
+--- a/source/KloudTera/src/main/java/com/cloudlanes/db/entities/Alert.java
++++ b/source/KloudTera/src/main/java/com/cloudlanes/db/entities/Alert.java
+@@ -0,0 +1,118 @@
++package com.cloudlanes.db.entities;
++
++import java.sql.Timestamp;
++
++import javax.persistence.Column;
++import javax.persistence.Entity;
++import javax.persistence.FetchType;
++import javax.persistence.GeneratedValue;
++import javax.persistence.GenerationType;
++import javax.persistence.Id;
++import javax.persistence.JoinColumn;
++import javax.persistence.ManyToOne;
++import javax.persistence.Table;
++import javax.xml.bind.annotation.XmlElement;
++import javax.xml.bind.annotation.XmlRootElement;
++
++@Entity
++@Table(name = "alert", catalog = "cloudlanes")
++@XmlRootElement
++public class Alert {
++
++	@XmlElement
++	private int id;
++	@XmlElement
++	private String title;
++	@XmlElement
++	private String type;
++	@XmlElement
++	private String severity;
++	@XmlElement
++	private Timestamp time_stamp;
++	@XmlElement
++	private String detail_message;
++	@XmlElement
++	private AlertRecommendation recommendation;
++	@XmlElement
++	private String status;
++
++	public Alert() {
++
++	}
++
++	@Id
++	@GeneratedValue(strategy = GenerationType.AUTO)
++	@Column(name = "id", unique = true, nullable = false)
++	public int getId() {
++		return id;
++	}
++
++	public void setId(int id) {
++		this.id = id;
++	}
++
++	@Column(name = "title", unique = false, nullable = false)
++	public String getTitle() {
++		return title;
++	}
++
++	public void setTitle(String title) {
++		this.title = title;
++	}
++
++	@Column(name = "type", unique = false, nullable = false)
++	public String getType() {
++		return type;
++	}
++
++	public void setType(String type) {
++		this.type = type;
++	}
++
++	@Column(name = "severity", unique = false, nullable = false)
++	public String getSeverity() {
++		return severity;
++	}
++
++	public void setSeverity(String severity) {
++		this.severity = severity;
++	}
++
++	@Column(name = "time_stamp", unique = false, nullable = true)
++	public Timestamp getTime_stamp() {
++		return time_stamp;
++	}
++
++	public void setTime_stamp(Timestamp time_stamp) {
++		this.time_stamp = time_stamp;
++	}
++
++	@Column(name = "detail_message", unique = false, nullable = true)
++	public String getDetail_message() {
++		return detail_message;
++	}
++
++	public void setDetail_message(String detail_message) {
++		this.detail_message = detail_message;
++	}
++
++	@ManyToOne(fetch = FetchType.EAGER)
++	@JoinColumn(name = "err_code_id")
++	public AlertRecommendation getRecommendation() {
++		return recommendation;
++	}
++
++	public void setRecommendation(AlertRecommendation recommendation) {
++		this.recommendation = recommendation;
++	}
++
++	@Column(name = "status", unique = false, nullable = true)
++	public String getStatus() {
++		return status;
++	}
++
++	public void setStatus(String status) {
++		this.status = status;
++	}
++
++}
+diff --git a/source/KloudTera/src/main/java/com/cloudlanes/db/entities/AlertRecommendation.java b/source/KloudTera/src/main/java/com/cloudlanes/db/entities/AlertRecommendation.java
+index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..7672b9188de4c51f2c53dab09d7e3a7b8b0401c2 100644
+--- a/source/KloudTera/src/main/java/com/cloudlanes/db/entities/AlertRecommendation.java
++++ b/source/KloudTera/src/main/java/com/cloudlanes/db/entities/AlertRecommendation.java
+@@ -0,0 +1,62 @@
++package com.cloudlanes.db.entities;
++
++import javax.persistence.Column;
++import javax.persistence.Entity;
++import javax.persistence.GeneratedValue;
++import javax.persistence.GenerationType;
++import javax.persistence.Id;
++import javax.persistence.Table;
++import javax.xml.bind.annotation.XmlElement;
++import javax.xml.bind.annotation.XmlRootElement;
++
++@Entity
++@Table(name = "alert_recommendation", catalog = "cloudlanes")
++@XmlRootElement
++public class AlertRecommendation {
++
++	@XmlElement
++	private Integer id;
++	@XmlElement
++	private Double code;
++	@XmlElement
++	private String recommendation;
++
++	public AlertRecommendation() {
++
++	}
++
++	public AlertRecommendation(String recommendation, Double code) {
++		super();
++		this.code = code;
++		this.recommendation = recommendation;
++	}
++
++	@Id
++	@GeneratedValue(strategy = GenerationType.AUTO)
++	@Column(name = "id", unique = true, nullable = false)
++	public Integer getId() {
++		return id;
++	}
++
++	public void setId(Integer id) {
++		this.id = id;
++	}
++
++	@Column(name = "err_code", nullable = false)
++	public Double getCode() {
++		return code;
++	}
++
++	public void setCode(Double code) {
++		this.code = code;
++	}
++
++	@Column(name = "recommendation", nullable = false)
++	public String getRecommendation() {
++		return recommendation;
++	}
++
++	public void setRecommendation(String recommendation) {
++		this.recommendation = recommendation;
++	}
++}
+diff --git a/source/KloudTera/src/main/java/com/cloudlanes/rest/controller/AlertController.java b/source/KloudTera/src/main/java/com/cloudlanes/rest/controller/AlertController.java
+index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..ee9b479b71c3bd4c9598af7ca4ea58f8d1f83891 100644
+--- a/source/KloudTera/src/main/java/com/cloudlanes/rest/controller/AlertController.java
++++ b/source/KloudTera/src/main/java/com/cloudlanes/rest/controller/AlertController.java
+@@ -0,0 +1,68 @@
++package com.cloudlanes.rest.controller;
++
++import java.util.List;
++
++import org.springframework.beans.factory.annotation.Autowired;
++import org.springframework.http.MediaType;
++import org.springframework.web.bind.annotation.RequestBody;
++import org.springframework.web.bind.annotation.RequestMapping;
++import org.springframework.web.bind.annotation.RequestMethod;
++import org.springframework.web.bind.annotation.RestController;
++
++import com.cloudlanes.db.entities.Alert;
++import com.cloudlanes.db.entities.AlertRecommendation;
++import com.cloudlanes.rest.outobject.Status;
++import com.cloudlanes.service.AlertRecommendationService;
++import com.cloudlanes.service.AlertService;
++
++@RestController
++@RequestMapping(value = "/alertservices")
++public class AlertController {
++
++	@Autowired
++	private AlertService alertService;
++	@Autowired
++	private AlertRecommendationService recommendationService;
++
++	@RequestMapping(value = "/add", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
++	public Status add(@RequestBody Alert a) throws Exception {
++		if (alertService.add(a)) {
++			return new Status(true, "OK");
++		} else {
++			return new Status(false, "Not OK");
++		}
++
++	}
++
++	@RequestMapping(value = "/update", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
++	public Status update(@RequestBody Alert a) throws Exception {
++
++		if (alertService.update(a)) {
++			return new Status(true, "OK");
++		} else {
++			return new Status(false, "Not OK");
++		}
++
++	}
++
++	@RequestMapping(value = "/delete", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
++	public Status delete(@RequestBody Alert a) throws Exception {
++
++		if (alertService.delete(a)) {
++			return new Status(true, "OK");
++		} else {
++			return new Status(false, "Not OK");
++		}
++
++	}
++
++	@RequestMapping(value = "/list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
++	public List<Alert> list() throws Exception {
++		return alertService.listAlert();
++	}
++
++	@RequestMapping(value = "/recommendation", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
++	public AlertRecommendation getRecommendation(Double code) throws Exception {
++		return recommendationService.getRecommendation(code);
++	}
++}
+diff --git a/source/KloudTera/src/main/java/com/cloudlanes/service/AlertRecommendationService.java b/source/KloudTera/src/main/java/com/cloudlanes/service/AlertRecommendationService.java
+index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..4d31b93b266b07a5f4423cc3d5c407f0fe1016df 100644
+--- a/source/KloudTera/src/main/java/com/cloudlanes/service/AlertRecommendationService.java
++++ b/source/KloudTera/src/main/java/com/cloudlanes/service/AlertRecommendationService.java
+@@ -0,0 +1,14 @@
++package com.cloudlanes.service;
++
++import com.cloudlanes.db.entities.AlertRecommendation;
++
++public interface AlertRecommendationService {
++
++	public boolean add(AlertRecommendation a);
++
++	public boolean update(AlertRecommendation a);
++
++	public boolean delete(AlertRecommendation a);
++
++	public AlertRecommendation getRecommendation(Double code);
++}
+diff --git a/source/KloudTera/src/main/java/com/cloudlanes/service/AlertRecommendationServiceImpl.java b/source/KloudTera/src/main/java/com/cloudlanes/service/AlertRecommendationServiceImpl.java
+index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..d4cdec3b048ef091dc5ebd747ee9c79bdcd616b5 100644
+--- a/source/KloudTera/src/main/java/com/cloudlanes/service/AlertRecommendationServiceImpl.java
++++ b/source/KloudTera/src/main/java/com/cloudlanes/service/AlertRecommendationServiceImpl.java
+@@ -0,0 +1,41 @@
++package com.cloudlanes.service;
++
++import org.springframework.beans.factory.annotation.Autowired;
++import org.springframework.stereotype.Service;
++import org.springframework.transaction.annotation.Transactional;
++
++import com.cloudlanes.db.alertdao.AlertRecommendationDAO;
++import com.cloudlanes.db.entities.AlertRecommendation;
++
++@Service
++public class AlertRecommendationServiceImpl implements
++		AlertRecommendationService {
++
++	@Autowired
++	private AlertRecommendationDAO recommendationDAO;
++
++	@Override
++	@Transactional
++	public boolean add(AlertRecommendation a) {
++		return recommendationDAO.addRecommendation(a);
++	}
++
++	@Override
++	@Transactional
++	public boolean update(AlertRecommendation a) {
++		return recommendationDAO.updateRecommendation(a);
++	}
++
++	@Override
++	@Transactional
++	public boolean delete(AlertRecommendation a) {
++		return recommendationDAO.removeRecommendation(a);
++	}
++
++	@Override
++	@Transactional
++	public AlertRecommendation getRecommendation(Double code) {
++		return recommendationDAO.getRecommendation(code);
++	}
++
++}
+diff --git a/source/KloudTera/src/main/java/com/cloudlanes/service/AlertService.java b/source/KloudTera/src/main/java/com/cloudlanes/service/AlertService.java
+index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..1db5beef5c2d39d32850febe8703ec4b2d8ca0c3 100644
+--- a/source/KloudTera/src/main/java/com/cloudlanes/service/AlertService.java
++++ b/source/KloudTera/src/main/java/com/cloudlanes/service/AlertService.java
+@@ -0,0 +1,12 @@
++package com.cloudlanes.service;
++
++import java.util.List;
++
++import com.cloudlanes.db.entities.Alert;
++
++public interface AlertService {
++	public boolean add(Alert a);
++	public boolean update(Alert a);
++	public boolean delete(Alert a);
++	public List<Alert> listAlert();
++}
+diff --git a/source/KloudTera/src/main/java/com/cloudlanes/service/AlertServiceImpl.java b/source/KloudTera/src/main/java/com/cloudlanes/service/AlertServiceImpl.java
+index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..ca3ea589487d9ff186f74d80f3e598797c5fd08c 100644
+--- a/source/KloudTera/src/main/java/com/cloudlanes/service/AlertServiceImpl.java
++++ b/source/KloudTera/src/main/java/com/cloudlanes/service/AlertServiceImpl.java
+@@ -0,0 +1,42 @@
++package com.cloudlanes.service;
++
++import java.util.List;
++
++import org.springframework.beans.factory.annotation.Autowired;
++import org.springframework.stereotype.Service;
++import org.springframework.transaction.annotation.Transactional;
++
++import com.cloudlanes.db.alertdao.AlertDao;
++import com.cloudlanes.db.entities.Alert;
++
++@Service
++public class AlertServiceImpl implements AlertService {
++
++	@Autowired
++	private AlertDao alertDao;
++
++	@Override
++	@Transactional
++	public boolean add(Alert a) {
++		return alertDao.addAlert(a);
++	}
++
++	@Override
++	@Transactional
++	public boolean update(Alert a) {
++		return alertDao.updateAlert(a);
++	}
++
++	@Override
++	@Transactional
++	public boolean delete(Alert a) {
++		return alertDao.removeAlert(a);
++	}
++
++	@Override
++	@Transactional
++	public List<Alert> listAlert() {
++		return alertDao.listAlert();
++	}
++
++}
+diff --git a/source/KloudTera/src/main/webapp/modules/alerts/alerts.html b/source/KloudTera/src/main/webapp/modules/alerts/alerts.html
+index cacca9a2c235939d042faeb8bfe38a511ef5d2e6..a4301dafc3a24dd39bcf73e9dd7528d4e88ae8ba 100644
+--- a/source/KloudTera/src/main/webapp/modules/alerts/alerts.html
++++ b/source/KloudTera/src/main/webapp/modules/alerts/alerts.html
+@@ -1,52 +1,179 @@
+-<img id="alertLoader" src="../assets/loader.gif" style="width: 50px;height: 50px;"/>
+ <div class="row  maxHeight">
+ 	<div class="col-sm-12">
+ 		<table st-table="displayedCollection" st-safe-src="alertCollection"
+ 			class="table table-striped">
+ 			<thead>
+ 				<tr>
+-					<th>ALERT</th>
+-					<th>TYPE</th>
+-					<th>STATUS</th>
+-					<th>SEVERITY</th>
+-					<th>SOURCE</th>
+-					<th>APPEARED ON</th>
++					<th st-sort="title">Alert</th>
++					<th st-sort="type">Type</th>
++					<th st-sort="severity">Severity</th>
++					<th st-sort="timp_stmp">Appeared On</th>
++					<th st-sort="status">Status</th>
++					<th>More Info</th>
+ 				</tr>
+ 			</thead>
+ 			<tbody>
+ 				<tr ng-repeat="row in displayedCollection">
+-					<td style="background-color:#E1F3FB;">{{row.alert}}</td>
++					<td style="background-color: #E1F3FB;">{{row.title}}</td>
+ 					<td>{{row.type}}</td>
+ 
+-					<td>{{row.active}}</td>
+-				
++
+ 					<td>
+-						<div ng-if="row.serverity == 'Critical'">
+-							<div style="color: #E40000;float:left;">
++						<div ng-if="row.severity == 'Critical'">
++							<div style="color: #E40000; float: left;">
+ 								<i class="glyphicon glyphicon-exclamation-sign"> </i>
+-							</div>				
+-								&nbsp;{{row.serverity}}
+-										
++							</div>
++							&nbsp;{{row.severity}}
++
+ 
+ 						</div>
+ 
+-						<div ng-if="row.serverity == 'Warning'">
+-							<div style="color: #FF8C00;float:left;">
++						<div ng-if="row.severity == 'Warning'">
++							<div style="color: #FF8C00; float: left;">
+ 								<i class="glyphicon glyphicon-warning-sign"> </i>
+-							</div>	 &nbsp;{{row.serverity}}
+-								
+-							
+-							
++							</div>
++							&nbsp;{{row.severity}}
++
+ 						</div>
+-						
++
++					</td>
++
++
++					<td>{{ row.time_stamp | date:'medium' }}</td>
++
++					<td>
++						<div ng-if="row.status == 'Active'">
++							<button type="button" class="btn btn-primary"
++								ng-click="showConfirmation(row)">Active</button>
++						</div>
++
++						<div ng-if="row.status == 'Close'">
++							<button type="button" class="btn btn-default" ng-disabled="true">Close</button>
++						</div>
++
++					</td>
++
++					<td>
++						<button type="button" class="btn btn-sm btn-primary"
++							ng-click="showDetails(row)">
++							<i class="glyphicon glyphicon-info-sign"> </i>
++						</button>
+ 					</td>
+-					
+-					<td>{{row.source}}</td>
+-					
+-					<td>{{row.app_on}}</td>
+ 
+ 				</tr>
+ 			</tbody>
++			<tfoot>
++				<tr>
++					<td colspan="5" class="text-center">
++						<div st-pagination="" st-items-by-page="itemsByPage"
++							st-displayed-pages="5"></div>
++					</td>
++				</tr>
++			</tfoot>
+ 		</table>
+ 	</div>
+ </div>
++
++<div class="modal fade" id="alertModal" tabindex="-1" role="dialog"
++	aria-labelledby="myModalLabel" aria-hidden="true">
++	<div class="modal-dialog custom-class">
++		<div class="modal-content">
++			<div class="modal-header">
++				<button type="button" class="close" data-dismiss="modal"
++					aria-hidden="true">&times;</button>
++				<h4 class="modal-title" id="myModalLabel">Alert Details</h4>
++
++			</div>
++			<div class="modal-body">
++
++
++
++				<td>
++					<div ng-if="details.severity == 'Critical'"
++						style="font-weight: bold; font-size: 18px;">
++						<div style="color: #FF8C00; float: left;">
++							<i class="glyphicon glyphicon-exclamation-sign"> </i>
++						</div>
++						&nbsp; &nbsp; &nbsp; &nbsp; {{details.title}}
++
++					</div>
++
++
++					<div ng-if="details.severity == 'Warning'"
++						style="font-weight: bold; font-size: 18px;">
++						<div style="color: #FF8C00; float: left;">
++							<i class="glyphicon glyphicon-warning-sign"> </i>
++						</div>
++						&nbsp; &nbsp; &nbsp; &nbsp; {{details.title}}
++
++					</div>
++
++				</td>
++
++
++
++				<table class="table">
++
++					<tbody>
++						<tr>
++							<td>Error code</td>
++							<td>{{code}}</td>
++						</tr>
++
++						<tr>
++							<td>Status</td>
++							<td>{{details.status}}</td>
++						</tr>
++
++						<tr>
++							<td>Appeared On</td>
++							<td>{{details.time_stamp | date:'medium'}}</td>
++						</tr>
++
++						<tr>
++							<td>Detail Message</td>
++							<td>{{details.detail_message}}</td>
++						</tr>
++
++
++						<tr>
++							<td>Recommendation</td>
++							<td style="text-align: justify">{{recommendation}}</td>
++						</tr>
++
++					</tbody>
++				</table>
++			</div>
++
++			<div class="modal-footer">
++				<button id="tape_submit" name="policy_submit"
++					class="btn btn-primary" data-dismiss="modal">Cancel</button>
++			</div>
++		</div>
++		<!-- /.modal-content -->
++	</div>
++	<!-- /.modal-dialog -->
++</div>
++
++
++
++<!-- confirm modal to close alert -->
++<div id="closeAlert" class="modal fade">
++	<div class="modal-dialog">
++		<div class="modal-content">
++			<!-- dialog body -->
++			<div class="modal-body">
++				<button type="button" class="close" data-dismiss="modal">&times;</button>
++				Are you sure want to Close Alert ?
++			</div>
++			<!-- dialog buttons -->
++
++			<div class="modal-footer">
++				<button type="button" class="btn btn-primary"
++					ng-click="closeAlert()" data-dismiss="modal">OK</button>
++				<button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
++			</div>
++
++		</div>
++	</div>
++</div>
+diff --git a/source/KloudTera/src/main/webapp/modules/alerts/alerts.js b/source/KloudTera/src/main/webapp/modules/alerts/alerts.js
+index 91a53d216bdf0afbf07ecdebfd1a7e398eabd5c2..ac099f29eb240bb1f0e4efa5558758106f46d3f1 100644
+--- a/source/KloudTera/src/main/webapp/modules/alerts/alerts.js
++++ b/source/KloudTera/src/main/webapp/modules/alerts/alerts.js
+@@ -1,4 +1,4 @@
+-//related code for authentication handling
++//related code for alert module handling
+ 'use strict';
+ 
+ (function() {
+@@ -6,28 +6,60 @@
+ 
+ 	.controller('alertCtrl', alertCtrl);
+ 
+-	//Inject my dependencies
+-	alertCtrl.$inject = [ '$scope', 'httpService', '$location'];
++	// Inject my dependencies
++	alertCtrl.$inject = [ '$scope', 'httpService', '$location', '$window' ];
+ 
+-	//Now create our controller function with all necessary logic
+-	function alertCtrl($scope,httpService, $location)
+-	{
++	// Now create our controller function with all necessary logic
++	function alertCtrl($scope, httpService, $location, $window) {
+ 		$scope.alertCollection = [];
++		$scope.row = {};
++		$scope.details = {};
++		$scope.recommendation = "";
++		$scope.itemsByPage = 10;
+ 
++		$scope.w = angular.element($window);
++		$scope.w.bind('resize', function() {
++			$("#divTableContainer").height($("#divAlertRow").height() - 15);
++		});
++
++		// Function to load alert from Back end
+ 		$scope.loadAlerts = function() {
+ 
+-			httpService.getAlerts()
+-				.success(function(data, status, headers) {
+-					$scope.alertCollection = data;
+-				})
+-				.error(function(data, status, headers, config){
+-					alert("Error while fetching alerts");
+-				});
++			httpService.getAlerts().success(function(data, status, headers) {
++				$scope.alertCollection = data;
++			}).error(function(data, status, headers, config) {
++				alert("Error while fetching alerts");
++			});
++		};
++
++		$scope.showConfirmation = function(row) {
++			$scope.row = angular.copy(row);
++			$("#closeAlert").modal();
++		};
++
++		// Function to show alert details in modal
++		$scope.showDetails = function(row) {
++			$scope.details = row;
++			$scope.recommendation = row.recommendation.recommendation;
++			$scope.code = row.recommendation.code;
++			$("#alertModal").modal();
++		};
++
++		// Function to update alert
++		$scope.closeAlert = function() {
++			$scope.row.status = "Close";
++			httpService.closeAlert($scope.row).success(
++					function(data, status, headers) {
++						$scope.loadAlerts();
++					}).error(function(data, status, headers, config) {
++				alert("Error while updating alerts");
++			});
++		};
++
++		// init fuction to load controller
++		$scope.init = function() {
++			$scope.loadAlerts();
+ 		};
+-		
+-		 $scope.init = function() {
+-		        $scope.loadAlerts();
+-		  };
+-		 $scope.init();
++		$scope.init();
+ 	}
+ })();
+\ No newline at end of file
+diff --git a/source/KloudTera/src/main/webapp/modules/services.js b/source/KloudTera/src/main/webapp/modules/services.js
+index 275fa3ecbb8aaeb4a62b68e45293b646e2affcbb..823260c3bcb6926ecc6cf44f1a427be9abcbccd7 100644
+--- a/source/KloudTera/src/main/webapp/modules/services.js
++++ b/source/KloudTera/src/main/webapp/modules/services.js
+@@ -99,7 +99,13 @@ app.factory('httpService', [ '$http', function($http) {
+ 
+ 		// alert calls
+ 		getAlerts : function() {
+-			return getRequestNoParms("data/alerts.json");
++			return getRequestNoParms("rest/alertservices/list");
++		},
++		closeAlert : function(data) {
++			return postRequest("rest/alertservices/update",data);
++		},
++		getAlertRecommendation : function(code) {
++			return getRequestNoParms("rest/alertservices/recommendation?code=" + code);
+ 		},
+ 		// vault calls
+ 		getVaultList : function() {

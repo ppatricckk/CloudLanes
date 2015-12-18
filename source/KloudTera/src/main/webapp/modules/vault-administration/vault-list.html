@@ -1,0 +1,32 @@
+<ol class="breadcrumb">
+    <li><a href="#">Vault-Administration</a></li>
+    <li class="active><a href="#">Vault List</a></li>
+</ol>
+<div class="row">
+<div class="col-sm-12">
+    <table st-table="displayedCollection" st-safe-src="vaultCollection" class="table table-striped">
+        <thead>
+        <tr>
+            <th st-sort="">Account Name</th>
+            <th st-sort="">Account Type</th>
+            <th>Delete</th>
+        </tr>
+
+        </thead>
+        <tbody>
+        <tr ng-repeat="row in displayedCollection">
+            <td>{{row.accountName}}</td>
+            <td>{{row.type}}</td>
+
+            <td>
+                <span  id="deleteIcon">
+                    <i class="glyphicon glyphicon-trash">
+                    </i>
+                </span>
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
+</div>
+</div>

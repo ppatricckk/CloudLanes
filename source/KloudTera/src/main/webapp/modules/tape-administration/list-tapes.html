@@ -1,0 +1,64 @@
+<ol class="breadcrumb">
+    <li><a href="#">Tape Administration</a></li>
+    <li class="active><a href="#">List Tapes</a></li>
+</ol>
+<div class="row"  style="max-height:90% ;overflow-y: auto">
+    <div class="col-sm-12">
+
+        <div class="form-group" style="padding-bottom: 7%" >
+            <label class="col-md-4 control-label" for="list_tape_vtl_brand">VTL Name</label>
+            <div class="col-md-4">
+                <select id="list_tape_vtl_brand" name="list_tape_vtl_brand" class="form-control" ng-model="tape.libraryName"  ng-change="brandSelected()" required
+                        ng-options="brand.libraryName as brand.libraryName for brand in brands">
+                </select>
+            </div>
+        </div>
+
+        <table st-table="displayedCollection" st-safe-src="rowCollection" class="table table-striped">
+            <thead>
+            <tr>
+                <th st-sort="">Barcode</th>
+           <!--     <th st-sort="">Media Type</th>-->
+                <th st-sort="">Capacity(MB)</th>
+                <th>Loaded Into Drive</th>
+                <th>Slot Id</th>
+                <th>Drive Id</th>
+                <th>Status</th>
+                <th>Remove
+                    <input id="tape_remove_all" type = "checkbox" style="margin-left: 5px" ng-model="removeAllTapes"
+                           ng-change="deleteAllTapes()" >
+                </th>
+            </tr>
+
+            </thead>
+            <tbody>
+            <tr ng-repeat="row in displayedCollection">
+                <td>{{row.barcode}}</td>
+              <!--  <td>{{row.mediaType}}</td>-->
+                <td>{{row.mediaCapacityMB}}</td>
+                <td>{{row.loadedInToDrive}}</td>
+                <td>{{row.slotId}}</td>
+                <td>{{row.driveId}}</td>
+                <td>{{row.status}}</td>
+
+
+                <td>
+                   <!-- <span  id="deleteIcon" ng-click="delete(row)">
+                        <i class="glyphicon glyphicon-trash">
+                        </i>
+                    </span>-->
+                        <input  id="tape_remove" type = "checkbox"  style="margin-left: 20%"
+                                ng-model="row.toDelete"
+                                ng-change="deleteTape($index)">
+                </td>
+
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="col-md-2 col-lg-2  pull-right">
+            <button id="list_tape_delete" name="list_tape_delete" class="btn btn-primary">Delete</button>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,170 @@
+<div class="row" style="margin: 10px;">
+	<div class="row" style="margin: 10px;">
+
+		<div class="row  maxHeight">
+         <!--   <div class="col-sm-12">
+                <h4>Usage Overview</h4>
+                <div class="progress"  style="margin-top: 2%">
+                    <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: {{percent}}%">
+                        <span class="sr-only">{{percent}}% Complete</span>
+                    </div>
+                </div>
+                <h5 class="pull-right"> {{100 - percent}}% Free</h5>
+            </div>-->
+
+            <div fusioncharts
+                 width="600"
+                 height="400"
+                 type="msline"
+                 chart="{{attrs}}"
+                 categories="{{categories}}"
+                 dataset="{{dataset}}"
+                    ></div>
+
+
+            <div class="col-sm-12" style="margin-top: 5%" >
+                    <div class="col-sm-6">
+                        <h3>Alerts</h3>
+                        <table st-table="alertsCollection" st-safe-src="alertsCollection"
+                               class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th style="width: 50%">SEVERITY</th>
+                                <th style="width: 50%">NO. Of ALERTS</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="row in alertsCollection">
+                                <!--	<td style="background-color:#E1F3FB;">{{row.alertType}}</td>-->
+
+                                <td  style="background-color:#E1F3FB;">
+                                    <div ng-if="row.alertType == 'Critical'">
+                                        <div style="color: #E40000;float:left;">
+                                            <i class="glyphicon glyphicon-exclamation-sign"> </i>
+                                        </div>
+                                        &nbsp;{{row.alertType}}
+
+
+                                    </div>
+
+                                    <div ng-if="row.alertType == 'Warning'">
+                                        <div style="color: #FF8C00;float:left;">
+                                            <i class="glyphicon glyphicon-warning-sign"> </i>
+                                        </div>	 &nbsp;{{row.alertType}}
+                                    </div>
+
+                                    <div ng-if="row.alertType == 'Information'">
+                                        <div style="color: #a8a8a8;float:left;">
+                                            <i class="glyphicon glyphicon-info-sign"> </i>
+                                        </div>	 &nbsp;{{row.alertType}}
+                                    </div>
+
+                                </td>
+
+                                <td>{{row.count}}</td>
+
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                <div class="col-sm-2" />
+                <div class="col-sm-4" >
+                    <h3>Library Status</h3>
+                    <table st-table="libraryStatusCollection" st-safe-src="libraryStatusCollection"
+                           class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th style="width: 50%">STATUS</th>
+                            <th style="width: 50%">COUNT</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="row in libraryStatusCollection">
+                            <!--	<td style="background-color:#E1F3FB;">{{row.alertType}}</td>-->
+
+                            <td  style="background-color:#E1F3FB;">
+                                <div ng-if="row.libraryStatus == 'No. Of Libraries'">
+                                    <div style="color: #0064a8;float:left;">
+                                        <i class="glyphicon glyphicon-hdd"> </i>
+                                    </div>
+                                    &nbsp;{{row.libraryStatus}}
+
+
+                                </div>
+
+                                <div ng-if="row.libraryStatus == 'No. Of Tapes'">
+                                    <div style="color: #0064a8;float:left;">
+                                        <i class="glyphicon glyphicon-film"> </i>
+                                    </div>	 &nbsp;{{row.libraryStatus}}
+                                </div>
+
+                                <div ng-if="row.libraryStatus == 'Failed Tapes'">
+                                    <div style="color: #ff3100;float:left;">
+                                        <i class="glyphicon glyphicon-exclamation-sign"> </i>
+                                    </div>	 &nbsp;{{row.libraryStatus}}
+                                </div>
+
+                                <div ng-if="row.libraryStatus == 'Tapes Uploaded'">
+                                    <div style="color: #0eff10;float:left;">
+                                        <i class="glyphicon glyphicon-upload"> </i>
+                                    </div>	 &nbsp;{{row.libraryStatus}}
+                                </div>
+
+                            </td>
+
+                            <td>{{row.count}}</td>
+
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="col-sm-6">
+                    <h3>Jobs</h3>
+                    <table st-table="jobsCollection" st-safe-src="jobsCollection"
+                           class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th style="width: 50%">JOBS</th>
+                            <th style="width: 50%">COUNT</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="row in jobsCollection">
+                            <!--	<td style="background-color:#E1F3FB;">{{row.alertType}}</td>-->
+
+                            <td  style="background-color:#E1F3FB;">
+                                <div ng-if="row.jobType == 'Jobs Failed'">
+                                    <div style="color: #E40000;float:left;">
+                                        <i class="glyphicon glyphicon-exclamation-sign"> </i>
+                                    </div>
+                                    &nbsp;{{row.jobType}}
+
+
+                                </div>
+
+                                <div ng-if="row.jobType == 'Jobs In Progress'">
+                                    <div style="color: #a8a8a8;float:left;">
+                                        <i class="glyphicon glyphicon-transfer"> </i>
+                                    </div>	 &nbsp;{{row.jobType}}
+                                </div>
+
+                                <div ng-if="row.jobType == 'Jobs Completed'">
+                                    <div style="color: #0eff10;float:left;">
+                                        <i class="glyphicon glyphicon-ok"> </i>
+                                    </div>	 &nbsp;{{row.jobType}}
+                                </div>
+
+                            </td>
+
+                            <td>{{row.count}}</td>
+
+                        </tr>
+                        </tbody>
+                    </table>
+            </div>
+            <div class="col-sm-2" /></div>
+         </div>
+		</div>
+	</div>
+</div>

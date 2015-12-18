@@ -1,0 +1,65 @@
+<ol class="breadcrumb">
+    <li><a href="#">Vault Administration</a></li>
+    <li class="active><a href="#">Create Policy</a></li>
+</ol>
+<div class="col-md-2"></div>
+<div class="col-md-8">
+    <form class="form-horizontal" name="createPolicyForm" ng-submit="createPolicy(createPolicyForm.$valid)" novalidate>
+        <fieldset style="margin-top: 10% ">
+
+             <!-- policy Name-->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="policy_Name">Policy Name</label>
+                <div class="col-md-4">
+                    <input id="policy_Name"  type="text" placeholder="" class="form-control input-md" ng-model="policy.name" required>
+                </div>
+            </div>      
+            
+            
+             <!-- policy Type -->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="policyType">Policy Type</label>
+                <div class="col-md-4">
+                    <select id="policyType" name="policyType" class="form-control" ng-model="policy.type" required>
+                        <option value="Migration" selected >Migration</option>
+<!--                         <option value="Shredding">Shredding</option> -->
+                    </select>
+                </div>
+            </div>
+
+
+			  <!-- criteria-->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="criteria">Criteria</label>
+                <div class="col-md-4">
+                    <select id="criteria" name="criteria" class="form-control" ng-model="policy.criteria" required>
+                        <option value="byAge" selected>By Age</option>
+                        <option value="byType">By Type</option>
+                        <option value="byBarcode">By Barcode</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Value-->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="value">Value</label>
+                <div class="col-md-4">
+                    <input id="value" type="text" placeholder="" class="form-control input-md" ng-model="policy.value" required>
+                </div>
+            </div> 
+            
+            <!-- Button -->
+            <div class="form-group">
+                <label class="col-md-4 col-lg-4 control-label" for="tape_submit"></label>
+                <div class="col-md-2 col-lg-2 ">
+                    <button id="tape_submit" name="vtl_submit" class="btn btn-primary" ng-disabled="createPolicyForm.$invalid">Submit</button>
+                </div>
+                <div class="col-md-2 col-lg-2 ">
+                    <button id="tape_submit" name="vtl_submit" class="btn btn-primary">Cancel</button>
+                </div>
+            </div>
+
+        </fieldset>
+    </form>
+
+</div>
