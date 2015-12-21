@@ -12,14 +12,19 @@
                 <h5 class="pull-right"> {{100 - percent}}% Free</h5>
             </div>-->
 
-            <div fusioncharts
+           <!-- <div fusioncharts
                  width="600"
                  height="400"
                  type="msline"
                  chart="{{attrs}}"
                  categories="{{categories}}"
                  dataset="{{dataset}}"
-                    ></div>
+                    ></div>-->
+
+            <canvas id="line" class="chart chart-line col-sm-12" chart-data="data"
+                    chart-labels="labels" chart-legend="true" chart-series="series"
+                    chart-click="onClick" >
+            </canvas>
 
 
             <div class="col-sm-12" style="margin-top: 5%" >

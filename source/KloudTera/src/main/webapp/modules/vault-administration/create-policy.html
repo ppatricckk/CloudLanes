@@ -20,28 +20,26 @@
             <div class="form-group">
                 <label class="col-md-4 control-label" for="policyType">Policy Type</label>
                 <div class="col-md-4">
-                    <select id="policyType" name="policyType" class="form-control" ng-model="policy.type" required>
-                        <option value="Migration" selected >Migration</option>
-<!--                         <option value="Shredding">Shredding</option> -->
+                    <select id="policyType" name="policyType" class="form-control" ng-model="policy.type" required
+                            ng-options="policyType.type as policyType.type for policyType in policyTypes">
                     </select>
                 </div>
             </div>
 
 
 			  <!-- criteria-->
-            <div class="form-group">
+            <div class="form-group" ng-show="policy.type == policyTypes[0].type">
                 <label class="col-md-4 control-label" for="criteria">Criteria</label>
                 <div class="col-md-4">
                     <select id="criteria" name="criteria" class="form-control" ng-model="policy.criteria" required>
                         <option value="byAge" selected>By Age</option>
-                        <option value="byType">By Type</option>
                         <option value="byBarcode">By Barcode</option>
                     </select>
                 </div>
             </div>
             
             <!-- Value-->
-            <div class="form-group">
+            <div class="form-group" ng-show="policy.type == policyTypes[0].type">
                 <label class="col-md-4 control-label" for="value">Value</label>
                 <div class="col-md-4">
                     <input id="value" type="text" placeholder="" class="form-control input-md" ng-model="policy.value" required>
@@ -49,7 +47,7 @@
             </div> 
             
             <!-- Button -->
-            <div class="form-group">
+            <div class="form-group" ng-show="policy.type == policyTypes[0].type">
                 <label class="col-md-4 col-lg-4 control-label" for="tape_submit"></label>
                 <div class="col-md-2 col-lg-2 ">
                     <button id="tape_submit" name="vtl_submit" class="btn btn-primary" ng-disabled="createPolicyForm.$invalid">Submit</button>

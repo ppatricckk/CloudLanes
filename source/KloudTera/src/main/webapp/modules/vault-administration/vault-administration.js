@@ -97,13 +97,18 @@ function createPolicyCtrl($scope, httpService, $location, $rootScope, $http)
 {
 
 	$scope.policy = {
-			name:"",
-			type:"",
-			criteria:"",
-			value:""
-			
+		name:"",
+		type:"",
+		criteria:"",
+		value:""
+
 	};
-		
+
+	$scope.policyTypes =[
+		{type:'Vaulting'},
+		{type:'Migration'}
+	]
+
 	$scope.createPolicy = function(isValid) {
 		if(isValid){
 			httpService.addPolicy($scope.policy).success(function(data, status, headers) {
@@ -114,19 +119,20 @@ function createPolicyCtrl($scope, httpService, $location, $rootScope, $http)
 			});
 		}
 	};
-	
-	
+
+
 	$scope.clearPlocily = function(){
-	  $scope.policy.name = "";
-	  $scope.policy.type = "";
-	  $scope.policy.criteria = "";
-	  $scope.policy.value = "";
+		$scope.policy.name = "";
+		$scope.policy.type = "";
+		$scope.policy.criteria = "";
+		$scope.policy.value = "";
 	};
-	
+
 	$scope.init = function() {
-			$scope.clearPlocily();
-    };
-    $scope.init();
+		$scope.clearPlocily();
+		$scope.policy.type = $scope.policyTypes[0].type;
+	};
+	$scope.init();
 
 }
 
